@@ -28,6 +28,6 @@ module Askme
 
     config.i18n.default_locale = :en
     config.i18n.locale = :ru
-    
+
   end
 end
