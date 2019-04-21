@@ -1,24 +1,28 @@
-# README
+# Веб-приложение "Ask me" 
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Вы можете задать вопрос любому зарегистрированному на сайте пользователю и получить ответ.
 
-Things you may want to cover:
+***
 
-* Ruby version
+Приложение создано на Ruby on Rails v. 5.2.3
 
-* System dependencies
+## Установка
+Склонируйте приложение на ваш компьютер
+``` ruby
+ git clone https://github.com/Paleo1og/askme.git
+```
+Установите все гемы, необходимые для работы приложения и выполните миграции базы данных.
+``` ruby
+bundle install
+bundle exec rails db:migrate
+```
+## Запуск
+В папке с проектом запустите сервер
+``` ruby
+ rails s
+```
+Приложение будет доступно по адресу http://localhost:3000
+***
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Демо версия доступна в интернете:
+https://myask.herokuapp.com/

@@ -7,12 +7,16 @@ gem 'puma'
 
 gem 'rails', '~> 5.2.3'
 
-gem 'recaptcha', require: 'recaptcha/rails'
+gem "recaptcha", require: 'recaptcha/rails'
+
 gem 'sass-rails', '~> 5.0'
 
 gem 'uglifier', '>= 1.3.0'
 
 gem 'jquery-rails'
+gem 'execjs'
+gem 'therubyracer'
+gem 'rails_12factor'
 
 gem 'coffee-rails', '~> 4.2'
 

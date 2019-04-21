@@ -68,3 +68,11 @@
     display: none;
   }
 }
+
+.questions-number {
+  color: white;
+}
+
+.hashtags-list {
+  font-size: 1.5em;
+}

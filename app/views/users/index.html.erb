@@ -5,9 +5,15 @@
 
   <% @users.each do |user| %>
     <div class="users-list-item">
-      <div class="user-image-div user-image-div-small">
+      <div class="user-image-div user-image-small">
         <%= link_to image_tag(user_avatar(user), class: 'user-image'), user_path(user) %>
       </div>
     </div>
   <% end %>
+
+  <div class="hashtags-list buffer-both">
+    <% @hashtags.each do |hashtag| %>
+      <%= link_to "##{hashtag.name}", hashtag_path(hashtag.name) %>
+    <% end %>
+  </div>
 </div>

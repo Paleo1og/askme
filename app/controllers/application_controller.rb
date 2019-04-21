@@ -1,7 +1,4 @@
 class ApplicationController < ActionController::Base
-
-  protect_from_forgery with: :exception
-
   helper_method :current_user
 
   private
@@ -11,6 +8,10 @@ class ApplicationController < ActionController::Base
   end
 
   def reject_user
-   redirect_to root_path, alert: 'Вам сюда нельзя'
+    redirect_to root_path, alert: 'Вам сюда нельзя!'
+  end
+
+  def login_user(user_id)
+    session[:user_id] = user_id
   end
 end

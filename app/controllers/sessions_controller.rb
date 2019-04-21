@@ -6,15 +6,19 @@ class SessionsController < ApplicationController
     user = User.authenticate(params[:email], params[:password])
 
     if user.present?
-      session[:user_id] = user.id
+      login_user(user.id)
+
       redirect_to root_url, notice: 'Вы успешно залогинились'
-    else flash.now.alert = "Неправильный мэйл или пароль"
+    else
+      flash.now.alert = 'Неправильный email или password'
+
       render :new
     end
   end
 
   def destroy
     session[:user_id] = nil
-    redirect_to root_url, notice: 'Вы разлогинились! Приходите еще!'
+
+    redirect_to root_url, notice: 'Вы разлогинилсь. Приходите еще!'
   end
 end

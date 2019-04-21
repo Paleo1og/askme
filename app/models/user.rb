@@ -1,26 +1,40 @@
 require 'openssl'
 
 class User < ApplicationRecord
-
-  ITERATIONS = 20000
+  ITERATIONS = 20_000
   DIGEST = OpenSSL::Digest::SHA256.new
 
-  has_many :questions
-  attr_accessor :password
+  has_many :questions, dependent: :delete_all
+
+  before_validation :downcase_username
 
   validates :email, :username, presence: true
   validates :email, :username, uniqueness: true
+
+  validates :email, format: { with: /\A[\w\.-]+@([\w\.-]+)\z/i }
+  validates :username, format: { with: /\A[\w]+\z/ }, length: { maximum: 40 }
+  validates :header_color, format: { with: /\A#[\h]{6}\z/ }
+
+  attr_accessor :password
+
   validates :password, presence: true, on: :create
-  validates_confirmation_of :password
-  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP } #проверка формата емайл
-  validates :username, length: { maximum: 40 }, format: { with: /\A[a-zA-Z0-9_]+\Z/ } #проверка формата и длины юзернэйма
+  validates :password, confirmation: true
 
   before_save :encrypt_password
 
+  def downcase_username
+    username.downcase!
+  end
+
   def encrypt_password
-    if self.password.present?
+    if password.present?
       self.password_salt = User.hash_to_string(OpenSSL::Random.random_bytes(16))
-      self.password_hash = User.hash_to_string(OpenSSL::PKCS5.pbkdf2_hmac(self.password, self.password_salt, ITERATIONS, DIGEST.length, DIGEST))
+
+      self.password_hash = User.hash_to_string(
+          OpenSSL::PKCS5.pbkdf2_hmac(
+              password, password_salt, ITERATIONS, DIGEST.length, DIGEST
+          )
+      )
     end
   end
 
@@ -31,10 +45,16 @@ class User < ApplicationRecord
   def self.authenticate(email, password)
     user = find_by(email: email)
 
-    if user.present? && user.password_hash == User.hash_to_string(OpenSSL::PKCS5.pbkdf2_hmac(password, user.password_salt, ITERATIONS, DIGEST.length, DIGEST))
-      user
-    else
-      nil
-    end
+    return nil unless user.present?
+
+    hashed_password = User.hash_to_string(
+        OpenSSL::PKCS5.pbkdf2_hmac(
+            password, user.password_salt, ITERATIONS, DIGEST.length, DIGEST
+        )
+    )
+
+    return user if user.password_hash == hashed_password
+
+    nil
   end
 end

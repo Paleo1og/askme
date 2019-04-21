@@ -10,7 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_02_052510) do
+ActiveRecord::Schema.define(version: 2019_01_18_102024) do
+
+  create_table "hashtags", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_hashtags_on_name"
+  end
+
+  create_table "hashtags_questions", force: :cascade do |t|
+    t.integer "hashtag_id"
+    t.integer "question_id"
+    t.index ["hashtag_id"], name: "index_hashtags_questions_on_hashtag_id"
+    t.index ["question_id"], name: "index_hashtags_questions_on_question_id"
+  end
 
   create_table "questions", force: :cascade do |t|
     t.string "text"
@@ -18,6 +32,8 @@ ActiveRecord::Schema.define(version: 2019_04_02_052510) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.integer "author_id"
+    t.index ["author_id"], name: "index_questions_on_author_id"
     t.index ["user_id"], name: "index_questions_on_user_id"
   end
 
@@ -30,6 +46,7 @@ ActiveRecord::Schema.define(version: 2019_04_02_052510) do
     t.string "password_hash"
     t.string "password_salt"
     t.string "avatar_url"
+    t.string "header_color"
   end
 
 end
