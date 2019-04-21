@@ -7,6 +7,7 @@ gem 'puma'
 
 gem 'rails', '~> 5.2.3'
 
+gem 'recaptcha', require: 'recaptcha/rails'
 gem 'sass-rails', '~> 5.0'
 
 gem 'uglifier', '>= 1.3.0'
